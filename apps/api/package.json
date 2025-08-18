@@ -9,6 +9,7 @@
   "dependencies": {
     "@hono/node-server": "^1.18.2",
     "@repo/database": "workspace:*",
+    "@t3-oss/env-core": "^0.13.4",
     "hono": "^4.9.2"
   },
   "devDependencies": {
