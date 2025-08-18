@@ -13,9 +13,101 @@ datasource db {
   relationMode = "prisma"
 }
 
-// This is a stub model.
-// Delete it and add your own Prisma models.
-model Page {
-  id   Int    @id @default(autoincrement())
-  name String
+// iTunes search results model
+
+model iTunesSearchResult {
+  id                     Int       @id @default(autoincrement())
+  searchTerm             String
+  trackId                Int?
+  artistName             String?
+  trackName              String?
+  collectionName         String?
+  artistViewUrl          String?
+  collectionViewUrl      String?
+  trackViewUrl           String?
+  previewUrl             String?
+  artworkUrl30           String?
+  artworkUrl60           String?
+  artworkUrl100          String?
+  collectionPrice        Float?
+  trackPrice             Float?
+  releaseDate            DateTime?
+  collectionExplicitness String?
+  trackExplicitness      String?
+  discCount              Int?
+  discNumber             Int?
+  trackCount             Int?
+  trackNumber            Int?
+  trackTimeMillis        Int?
+  country                String?
+  currency               String?
+  primaryGenreName       String?
+  kind                   String?
+  wrapperType            String?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  @@index([searchTerm])
+  @@index([trackId])
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  isAnonymous   Boolean?
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
 }

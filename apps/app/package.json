@@ -2,7 +2,7 @@
   "name": "app",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000 --turbopack",
+    "dev": "next dev -p 3030 --turbopack",
     "build": "next build",
     "start": "next start",
     "analyze": "ANALYZE=true npm run build",
@@ -11,18 +11,10 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@repo/analytics": "workspace:*",
     "@repo/auth": "workspace:*",
-    "@repo/collaboration": "workspace:*",
     "@repo/database": "workspace:*",
     "@repo/design-system": "workspace:*",
-    "@repo/feature-flags": "workspace:*",
     "@repo/next-config": "workspace:*",
-    "@repo/notifications": "workspace:*",
-    "@repo/observability": "workspace:*",
-    "@repo/security": "workspace:*",
-    "@repo/seo": "workspace:*",
-    "@repo/webhooks": "workspace:*",
     "@sentry/nextjs": "^9.22.0",
     "@t3-oss/env-nextjs": "^0.13.4",
     "fuse.js": "^7.1.0",
@@ -36,7 +28,6 @@
     "zod": "^3.25.28"
   },
   "devDependencies": {
-    "@repo/testing": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.3.0",
