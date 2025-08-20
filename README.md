@@ -1,31 +1,109 @@
-# ▲ / next-forge
+رابط التجربه: https://thmanyah-app.vercel.app
+رابط (Github) : https://github.com/the-moezzat/thmanyah
 
-**Production-grade Turborepo template for Next.js apps.**
+### متطلبات التكليف:
+انشاء Restful API للبحث فى البودكاست باستخدام ITunes Search API وتخزين نتائج البحث فى قاعدة البيانات ثم اراجعها للمستخدم وبناء صفحة لعرض نتائج البحث مثل تلك `https://podbay.fm/search?q=%D9%81%D9%86%D8%AC%D8%A7%D9%86`
 
-<div>
-  <img src="https://img.shields.io/npm/dy/next-forge" alt="" />
-  <img src="https://img.shields.io/npm/v/next-forge" alt="" />
-  <img src="https://img.shields.io/github/license/vercel/next-forge" alt="" />
-</div>
+##### تحليل التكليف:
+المتطلبات:
+- بناء Rest API endpoint تستقبل كلمه البحث ك Request Parameter
+- استخدام ITunes Search API للبحث فى البودكاست
+- تخزين النتائج القادمه من ITunes فى قاعده بيانات
+- استراجاع نتائج البحث من قاعده البيانات للمستخدم
+- بناء صفحة لعرض نتائج البحث
 
-## Overview
+##### أسئله سألتها لنفسى قبل الشروع فى العمل:
+1. لماذا نحتاج الى حفظ النتائج فى قاعدة بيانات بدلا من طلبها بشكل مباشر
 
-[next-forge](https://github.com/vercel/next-forge) is a [Next.js](https://nextjs.org/) project boilerplate for modern web application. It is designed to be a comprehensive starting point for new apps, providing a solid, opinionated foundation with a minimal amount of configuration.
 
-## Getting Started
+User flow:
+![[Pasted image 20250819224917.png]]
 
-Clone the repo using:
+#### مميزات التطبيق:
+1. بحث فى البودكاست.
+2. حفظ البودكاست فى قائمه المفضله.
+3. رؤيه اخر البودكاست اللى المستخدم بحث عنها مع النتائج
+4. عرض نتائج البحث بطرق مختله مثل الشبكه او القائمه (Grid, List view)
+5. موقع متعدد اللغات (عربى, انجليزى)
+6. تغيير وضع الموقع (الداكن او الفاتح)
+7. تصميم متجاوب مع مختلف الشاشات لتوفير تجربة مستخدم سهله و مريحه
+8. الذهاب الى مكان البودكاست للاستماع اليه.
 
-```sh
-npx next-forge@latest init
-```
+##### صفحات الموقع:
+- الصفحه الرئيسيه تحتوى على صندوق للبحث مع تصميم جيد (/)
+- صفحه عرض نتائج البحث( search?term/)
+- صفحه لعرض العروض المفضله (favpods/)
+- صفحه لعرض اخر نتائج بحث (history/)
 
-Then read the [docs](https://www.next-forge.com/docs) for more information.
+##### الباك اند Endpoints
+- لدينا Endpoing وحيده فقط للبحث (search?quey/)
 
-## Contributors
+##### معمارية التطبيق:
+تم بناء التطبيق باستخدام **معمارية الـ Monorepo**، لما توفره من سهولة في مشاركة الشيفرة البرمجية بين الواجهة الأمامية والخلفية، وتقليل التكرار عبر استخدام حزم مشتركة.
 
-<a href="https://github.com/vercel/next-forge/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=vercel/next-forge" />
-</a>
+نظرًا لاعتماد التطبيق بشكل كامل على **TypeScript**، فإن هذه البنية تُسهل إعادة استخدام الملفات والإعدادات (مثل TypeScript configs أو schemas أو types وهكذا) والأدوات المختلفة بين أجزاء المشروع، مما يساهم في تنظيم الكود بشكل أفضل، وتحقيق قابلية أعلى للصيانة والتوسع.
 
-Made with [contrib.rocks](https://contrib.rocks).
+كذلك، يتيح استخدام الـ Monorepo إعداد **tRPC** مع إطار **Fastify** بشكل مرن، مما يوفر  (**Typesafe end-to-end**) بين الواجهة الأمامية والخلفية.
+
+ايضا رفع Fastify ك serverless على vercel مما يقدمه من سهوله فى الرفع والmonitoring
+وايضا رفع Frontend على vercel
+#### التقنيات المستخدمه:
+بسبب اعتماد التطبيق على معماريه Monorepo فاستخدمت Turborepo لأنه ييوفّر:
+
+- **كاش ذكي** لتسريع التطوير والبناء.
+    
+- **تنفيذ مهام متوازية** وتنظيم الـ pipelines.
+    
+- **سهولة مشاركة الحزم والأدوات المشتركة** بين الواجهة الأمامية والخلفية.
+    
+- تكامل سلس مع **TypeScript و Next.js و Fastify**.
+##### الواجهة الاماميه Frontend:
+١. Nextjs
+٢. Lingui لتسهيل بناء موقع متعدد اللغات
+٣. React Query كاداة اساسيه فى Async state management بين الclient and server وتوفير Caching يمكن التحكم فيه
+٤. Zustand لاداره الStates بين المكونات المختلفه لما توفره من سهوله الاستخدام والاداء المتميز
+٥. Nuqs لادارة الState الموجوده فى الURL مثل الSearch query
+٦. Next Safe Action: لتوفير Validation مشترك بين Server action و الForm Validation كلاهما يشارك نفس Zod Schema
+٧. Shadcn
+٨. TailwindCss
+٩. Storybook: تساعدنى فى بناء الكومبونيد واختبارها فى معزل عن باقى المكونات مما يجعلنى اركز على كل التفاصيل الموجوده وتصميم كل حالات الاستخدام Built in isolation
+
+##### الواجهة الخلفيه Backend:
+١. Fastify
+٢. tRPC لتوفير End to End Typesafe
+٣. Postgresql from Neon
+٤. Prisma ORM
+
+##### تقنيات مشتركه:
+١. Biome بديل ل ESLint and prettier سريع جدا و اكثر كفائه
+٢. Zod
+٣. Vercel للاستضافه مما توفره من سهوله فى الاستخدام و دمجها مع Github
+
+#### الصعوبات التى واجهتها:
+
+ **التحدي الاول : أداء iTunes API**
+١. iTunes API بطيء أحياناً (2-5 ثواني)
+٢. Rate limiting (حد أقصى 20 طلب/دقيقة)
+٣. API قد يكون غير متاح أحياناً
+
+الحل: البحث فى قاعدة البيانات اولا ثم اذا لم نجد اى نتيجه نقوم بالبحث فى ITunes وايضا Error handling للحالات المختلفه وتوفير Fallback فى حاله حدوث اى مشكله
+
+التحدى الثانى:  **تكرار البيانات**
+- نفس البودكاست يظهر في نتائج بحث مختلفة
+- مثال: بودكاست "فنجان" يظهر عند البحث عن:
+  * "فنجان"
+  * "عبدالرحمن أبومالح"
+  * "بودكاست عربي"
+
+الحل: حفظ search term ك Array بدلا من نص واحد والاعتماد على Itunes ID فى كشف التكررارت
+
+#### اقتراحات لحل المشكله بشكل افضل:
+١. أستخدام Redis للCaching فهو اسرع واكثر كفائه من طلب المعلومات كل مره من قاعدة البيانات مما يوفر ضغط عليها
+٢. Rate Limit باستخدام Redis and User IP لكى نمنع اساءه الاستخدام وايضا حمايه ضد هجمات DDoS
+٣. استخدام KV db كCache Layer فهى اسرع بكثير جدا من قواعد البيانات التقليديه مما توفر تجربه مستخدم سلسه
+٤. استخدام Nextjs buildin API routes بدلا من استخدام Fastify وخصوصا ان التطبيق يحتوى على single endpoint فهى افضل من ناحيه الرفع وسهوله التطوير وايضا تقليل الاعتماد على خدمات خارجيه فى حال حدثت اى مشكله لا توثر على الواجهه الاماميه باى شكل
+
+### أفكار لتحسين التطبيق:
+١. بناء نظام تسجيل للمستخدمين يمكن استخدام Better auth فهى سهله فى الاستخدام وتوفر الكثير من الوقت
+٢. ممكن ايضا استخدام Better Auth لتسجيل المستخدمين بشكل Anonymous مما يوفر لدينا قاعده بيانات لكل المستخدمين وايضا سهوله تحويل كل النشاط الى حسابه فى حالة التسجيل وايضا توفير طريقه افضل لRate limit باستخدام User Id
+٣. Monitoring and analytics لتتبع نشاط المستخدمين على الموقع من الممكن استخدام Posthog and Better Stack
