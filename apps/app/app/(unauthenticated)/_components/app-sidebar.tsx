@@ -11,10 +11,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@repo/design-system/components/ui/sidebar';
-import { ClockIcon, ListIcon, HeartIcon, HomeIcon } from 'lucide-react';
-import Logo from './logo';
-import { usePathname } from 'next/navigation';
+import { ClockIcon, HeartIcon, HomeIcon, ListIcon } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import Logo from '@repo/design-system/components/logo';
 
 const sidebarItems = [
   {
@@ -78,7 +78,7 @@ export function AppSidebar() {
 
       <SidebarFooter className=" bg-main-background/90 p-4">
         <div className=" text-muted-foreground text-xs">
-          <p>© 2024 Thmanyah</p>
+          <p>© 2025 Thmanyah</p>
           <p>Made with ❤️</p>
         </div>
       </SidebarFooter>

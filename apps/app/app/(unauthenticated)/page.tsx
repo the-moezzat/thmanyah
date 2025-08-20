@@ -1,6 +1,6 @@
 // 'use client';
 import { SearchForm } from './_components/search-form';
-import AnimatedSphere from './_components/animated-sphere';
+import AnimatedSphere from '@repo/design-system/components/animated-sphere';
 
 function Page() {
   return (

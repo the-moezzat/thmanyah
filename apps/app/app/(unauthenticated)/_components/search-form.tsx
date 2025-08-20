@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { toast } from 'sonner';
-import { Button } from '@repo/design-system/components/ui/button';
 import {
   Form,
   FormControl,
@@ -20,7 +19,7 @@ import {
   SelectValue,
 } from '@repo/design-system/components/ui/select';
 import { Search } from 'lucide-react';
-import ButtonSearch from './search-button';
+import ButtonSearch from '@repo/design-system/components/search-button';
 
 // Form validation schema
 const formSchema = z.object({
@@ -140,18 +139,10 @@ export function SearchForm() {
         </div>
 
         <ButtonSearch
+          type="submit"
           idleIcon={<Search />}
           disabled={!form.formState.isValid}
         />
-
-        {/* <Button
-          type="submit"
-          size={'icon'}
-          className="size-14 rounded-full"
-          disabled={!form.formState.isValid}
-        >
-          <Search />
-        </Button> */}
       </form>
     </Form>
   );
