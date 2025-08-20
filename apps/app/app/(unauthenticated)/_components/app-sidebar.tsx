@@ -1,19 +1,51 @@
+'use client';
+
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@repo/design-system/components/ui/sidebar';
-import { SearchIcon, ClockIcon, ListIcon, HeartIcon } from 'lucide-react';
+import { ClockIcon, ListIcon, HeartIcon, HomeIcon } from 'lucide-react';
 import Logo from './logo';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+
+const sidebarItems = [
+  {
+    id: 'home',
+    label: 'Home',
+    icon: HomeIcon,
+    href: '/',
+  },
+  {
+    id: 'recent',
+    label: 'Recent',
+    icon: ClockIcon,
+    href: '/recent',
+  },
+  {
+    id: 'queue',
+    label: 'My Queue',
+    icon: ListIcon,
+    href: '/queue',
+  },
+  {
+    id: 'favorites',
+    label: 'Favorite Podcasts',
+    icon: HeartIcon,
+    href: '/favorites',
+  },
+];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
     <Sidebar>
       <SidebarHeader className="bg-main-background/90 p-6">
@@ -23,30 +55,22 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <SearchIcon className="h-4 w-4" />
-                  <span>Search</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <ClockIcon className="h-4 w-4" />
-                  <span>Recent</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <ListIcon className="h-4 w-4" />
-                  <span>My Queue</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <HeartIcon className="h-4 w-4" />
-                  <span>Favorite Podcasts</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {sidebarItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <SidebarMenuItem key={item.id}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === item.href}
+                    >
+                      <Link href={item.href}>
+                        <Icon />
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

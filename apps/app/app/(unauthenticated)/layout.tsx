@@ -1,5 +1,6 @@
 import { ModeToggle } from '@repo/design-system/components/mode-toggle';
 import {
+  SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from '@repo/design-system/components/ui/sidebar';
@@ -14,16 +15,18 @@ const AuthLayout = ({ children }: AuthLayoutProps) => (
   <SidebarProvider>
     <AppSidebar />
 
-    <main className="container relative grid h-dvh flex-col items-center justify-center bg-main-background lg:max-w-none lg:px-0">
-      {/* <SidebarTrigger /> */}
-      {/* <div className="-z-50 absolute inset-0 bg-[radial-gradient(125%_125%_at_50%_10%,#000000_40%,#010133_100%)]" /> */}
+    <SidebarInset>
+      <main className="h-dvh bg-main-background ">
+        {/* <SidebarTrigger /> */}
+        {/* <div className="-z-50 absolute inset-0 bg-[radial-gradient(125%_125%_at_50%_10%,#000000_40%,#010133_100%)]" /> */}
 
-      <div className="absolute top-4 right-4">
+        {/* <div className="absolute top-4 right-4">
         <ModeToggle />
-      </div>
+      </div> */}
 
-      {children}
-    </main>
+        {children}
+      </main>
+    </SidebarInset>
   </SidebarProvider>
 );
 
