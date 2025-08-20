@@ -1,9 +1,9 @@
 import { cn } from '@repo/design-system/lib/utils';
-import { IBM_Plex_Sans } from 'next/font/google'
+import { IBM_Plex_Sans_Arabic } from 'next/font/google'
 
-const ibmPlex = IBM_Plex_Sans({
+const ibmPlex = IBM_Plex_Sans_Arabic({
   weight: ['400', '500', '600'],
-  subsets: ['latin']
+  subsets: ['arabic', 'latin']
 })
 
 export const fonts = cn(
