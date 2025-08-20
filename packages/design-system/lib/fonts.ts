@@ -1,9 +1,12 @@
 import { cn } from '@repo/design-system/lib/utils';
-import { GeistMono } from 'geist/font/mono';
-import { GeistSans } from 'geist/font/sans';
+import { IBM_Plex_Sans } from 'next/font/google'
+
+const ibmPlex = IBM_Plex_Sans({
+  weight: ['400', '500', '600'],
+  subsets: ['latin']
+})
 
 export const fonts = cn(
-  GeistSans.variable,
-  GeistMono.variable,
+  ibmPlex.className,
   'touch-manipulation font-sans antialiased'
 );

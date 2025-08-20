@@ -11,9 +11,6 @@ type DesignSystemProviderProperties = ThemeProviderProps & {
 
 export const DesignSystemProvider = ({
   children,
-  privacyUrl,
-  termsUrl,
-  helpUrl,
   ...properties
 }: DesignSystemProviderProperties) => (
   <ThemeProvider {...properties}>
