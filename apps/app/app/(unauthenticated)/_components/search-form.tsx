@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 import {
   Form,
   FormControl,
@@ -20,11 +21,12 @@ import {
 } from '@repo/design-system/components/ui/select';
 import { Search } from 'lucide-react';
 import ButtonSearch from '@repo/design-system/components/search-button';
+import { Button } from '@repo/design-system/components/ui/button';
 
 // Form validation schema
 const formSchema = z.object({
-  searchTerm: z.string().min(2, {
-    message: 'Search term must be at least 2 characters.',
+  searchTerm: z.string().min(1, {
+    message: 'Search term is required.',
   }),
   mediaType: z.string({
     required_error: 'Please select a media type.',
@@ -48,6 +50,7 @@ const mediaTypes = [
 ];
 
 export function SearchForm() {
+  const router = useRouter();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,16 +63,13 @@ export function SearchForm() {
     // Handle form submission
     console.log('Form submitted with values:', values);
 
-    // Here you would typically:
-    // 1. Call your search API
-    // 2. Navigate to results page
-    // 3. Update global state
+    // Navigate to search page with query parameters
+    const searchParams = new URLSearchParams({
+      q: values.searchTerm,
+      media: values.mediaType,
+    });
 
-    // Example: Call iTunes Search API
-    // const searchUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(values.searchTerm)}&media=${values.mediaType}`;
-    // fetch(searchUrl).then(response => response.json()).then(data => console.log(data));
-
-    toast.success('Search submitted successfully!');
+    router.push(`/search?${searchParams.toString()}`);
   }
 
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -140,8 +140,9 @@ export function SearchForm() {
 
         <ButtonSearch
           type="submit"
+          controlled
           idleIcon={<Search />}
-          disabled={!form.formState.isValid}
+          disabled={form.formState.isSubmitting || !form.formState.isValid}
         />
       </form>
     </Form>

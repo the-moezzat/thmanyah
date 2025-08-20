@@ -48,21 +48,24 @@ export default function ButtonSearch({
 
   // Use controlled state if provided, otherwise use internal state
   const buttonState = controlled && state !== undefined ? state : internalState;
-  
-  const updateState = useCallback((newState: 'idle' | 'loading' | 'success') => {
-    if (controlled) {
-      onStateChange?.(newState);
-    } else {
-      setInternalState(newState);
-    }
-  }, [controlled, onStateChange]);
+
+  const updateState = useCallback(
+    (newState: 'idle' | 'loading' | 'success') => {
+      if (controlled) {
+        onStateChange?.(newState);
+      } else {
+        setInternalState(newState);
+      }
+    },
+    [controlled, onStateChange]
+  );
 
   const handleClick = useCallback(async () => {
     updateState('loading');
     if (onSearch) {
       await onSearch();
     }
-    
+
     // Only auto-transition states if not controlled
     if (!controlled) {
       setTimeout(() => {
@@ -81,28 +84,26 @@ export default function ButtonSearch({
   };
 
   return (
-    <div className="flex justify-center">
-      <Button
-        type={type}
-        className={`relative size-14 cursor-pointer overflow-hidden rounded-full border ${className}`}
-        disabled={buttonState !== 'idle' || disabled}
-        onClick={handleClick}
-        size={'icon'}
-        aria-label={buttonState === 'loading' ? 'Searching...' : 'Search'}
-      >
-        <AnimatePresence mode="popLayout" initial={false}>
-          <motion.span
-            transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
-            initial={{ opacity: 0, y: -25, filter: 'blur(10px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: 25, filter: 'blur(10px)' }}
-            key={buttonState}
-            className="flex w-full items-center justify-center"
-          >
-            {icons[buttonState]}
-          </motion.span>
-        </AnimatePresence>
-      </Button>
-    </div>
+    <Button
+      type={'submit'}
+      className={`relative size-14 cursor-pointer overflow-hidden rounded-full border ${className}`}
+      disabled={buttonState !== 'idle' || disabled}
+      onClick={handleClick}
+      size={'icon'}
+      aria-label={buttonState === 'loading' ? 'Searching...' : 'Search'}
+    >
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.span
+          transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
+          initial={{ opacity: 0, y: -25, filter: 'blur(10px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          exit={{ opacity: 0, y: 25, filter: 'blur(10px)' }}
+          key={buttonState}
+          className="flex w-full items-center justify-center"
+        >
+          {icons[buttonState]}
+        </motion.span>
+      </AnimatePresence>
+    </Button>
   );
 }

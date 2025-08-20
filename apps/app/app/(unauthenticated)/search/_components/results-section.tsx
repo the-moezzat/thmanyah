@@ -18,12 +18,17 @@ function ResultsSection() {
     clearOnDefault: true,
   });
 
+  const [mediaType] = useQueryState('media', {
+    defaultValue: 'podcast',
+    clearOnDefault: true,
+  });
+
   const [podcastView, setPodcastView] = useState<'scroll' | 'grid'>('scroll');
 
   return (
     <section>
       <header className="flex items-center justify-between border-b p-4">
-        <h2 className="font-medium text-lg">Top Podcasts for {searchQuery} </h2>
+        <h2 className="font-medium text-lg">Top {mediaType === 'podcast' ? 'Podcasts' : mediaType === 'all' ? 'Results' : mediaType.charAt(0).toUpperCase() + mediaType.slice(1)} for {searchQuery} </h2>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant={'ghost'} size={'icon'}>
