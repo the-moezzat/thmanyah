@@ -1,8 +1,5 @@
 'use client';
-import { useQueryState } from 'nuqs';
-import ResultItem from './results/result-item';
-import { useState } from 'react';
-import { Grid, List, EllipsisVertical } from 'lucide-react';
+import { useItunesSearch } from '@/app/(unauthenticated)/search/_hooks/use-itunes-search';
 import { Button } from '@repo/design-system/components/ui/button';
 import {
   DropdownMenu,
@@ -11,6 +8,11 @@ import {
   DropdownMenuTrigger,
 } from '@repo/design-system/components/ui/dropdown-menu';
 import { cn } from '@repo/design-system/lib/utils';
+import { EllipsisVertical, Grid, List } from 'lucide-react';
+import { useQueryState } from 'nuqs';
+import { useState } from 'react';
+import ResultItem from './results/result-item';
+import ResultItemSkeleton from './results/result-item-skeleton';
 
 function ResultsSection() {
   const [searchQuery] = useQueryState('q', {
@@ -23,12 +25,22 @@ function ResultsSection() {
     clearOnDefault: true,
   });
 
-  const [podcastView, setPodcastView] = useState<'scroll' | 'grid'>('scroll');
+  const [podcastView, setPodcastView] = useState<'scroll' | 'grid'>('grid');
+
+  const { data, isLoading, error } = useItunesSearch(
+    { term: searchQuery, limit: 20 },
+    !!searchQuery.trim()
+  );
 
   return (
     <section>
       <header className="flex items-center justify-between border-b p-4">
-        <h2 className="font-medium text-lg">Top {mediaType === 'podcast' ? 'Podcasts' : mediaType === 'all' ? 'Results' : mediaType.charAt(0).toUpperCase() + mediaType.slice(1)} for {searchQuery} </h2>
+        <h2 className="font-medium text-lg">
+          {searchQuery
+            ? `Top ${mediaType} for ${searchQuery}`
+            : 'iTunes Search Results'}
+          {data?.savedCount && ` (${data.savedCount} cached)`}
+        </h2>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant={'ghost'} size={'icon'}>
@@ -56,27 +68,34 @@ function ResultsSection() {
         className={cn(' w-full gap-4 overflow-scroll p-4', {
           'grid w-full grid-cols-[repeat(auto-fit,minmax(160px,1fr))]':
             podcastView === 'grid',
-          'flex flex-row items-center': podcastView === 'scroll',
+          'flex flex-row items-start': podcastView === 'scroll',
         })}
       >
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="ب بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
-        <ResultItem title="بودكاست فنجان" author="ثمانية" />
+        {isLoading &&
+          Array.from({ length: 6 }).map((_, index) => (
+            <ResultItemSkeleton key={index} />
+          ))}
+
+        {error && (
+          <div className="flex w-full items-center justify-center py-8 text-red-500">
+            <span>Error: {error.message}</span>
+          </div>
+        )}
+
+        {data && data.results.length === 0 && searchQuery && (
+          <div className="flex w-full items-center justify-center py-8 text-gray-500">
+            <span>No results found for "{searchQuery}"</span>
+          </div>
+        )}
+
+        {data?.results.map((result) => (
+          <ResultItem
+            key={result.trackId}
+            title={result.trackName}
+            author={result.artistName}
+            imageUrl={result.artworkUrl100}
+          />
+        ))}
       </main>
     </section>
   );

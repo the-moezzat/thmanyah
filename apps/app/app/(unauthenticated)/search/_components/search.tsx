@@ -13,7 +13,7 @@ function Search() {
     <div>
       <Input
         className="w-full text-center dark:bg-main-background"
-        placeholder="Search through over 70 million podcasts"
+        placeholder="Search iTunes music, movies, podcasts, and more"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />

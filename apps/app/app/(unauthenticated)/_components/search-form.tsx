@@ -21,7 +21,6 @@ import {
 } from '@repo/design-system/components/ui/select';
 import { Search } from 'lucide-react';
 import ButtonSearch from '@repo/design-system/components/search-button';
-import { Button } from '@repo/design-system/components/ui/button';
 
 // Form validation schema
 const formSchema = z.object({
@@ -60,9 +59,6 @@ export function SearchForm() {
   });
 
   function onSubmit(values: FormValues) {
-    // Handle form submission
-    console.log('Form submitted with values:', values);
-
     // Navigate to search page with query parameters
     const searchParams = new URLSearchParams({
       q: values.searchTerm,
