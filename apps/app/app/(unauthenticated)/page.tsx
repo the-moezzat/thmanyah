@@ -4,11 +4,11 @@ import AnimatedSphere from '@repo/design-system/components/animated-sphere';
 
 function Page() {
   return (
-    <div className="container relative grid h-dvh flex-col items-center justify-center bg-main-background lg:max-w-none lg:px-0">
+    <div className="relative grid h-dvh flex-col items-center justify-center bg-main-background lg:max-w-none lg:px-0">
       <div className="flex flex-col items-center space-y-16 bg-[hsl(238,27%,12%)]">
-        <AnimatedSphere size="150px" animationDuration={30} />
+        <AnimatedSphere animationDuration={30} />
 
-        <div className="w-3xl space-y-8">
+        <div className="space-y-8 md:w-xl lg:w-3xl">
           <SearchForm />
         </div>
       </div>{' '}

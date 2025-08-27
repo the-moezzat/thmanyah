@@ -82,7 +82,7 @@ export function SearchForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="flex items-center gap-2"
+        className="flex flex-col items-center gap-2 sm:flex-row "
       >
         <div className="grid w-full grid-cols-[auto_1fr] items-center rounded-full border border-gray-800 p-1 dark:bg-main-background ">
           <FormField
@@ -105,7 +105,7 @@ export function SearchForm() {
                       <SelectItem
                         key={type.value}
                         value={type.value}
-                        className="font-semibold text-base"
+                        className="font-semibold text-sm md:text-base"
                       >
                         {type.label}
                       </SelectItem>
@@ -126,7 +126,7 @@ export function SearchForm() {
                   <Input
                     placeholder="Enter your search term..."
                     {...field}
-                    className="h-12 w-full rounded-full border-0 bg-main-background shadow-none placeholder:text-lg focus-visible:border-none focus-visible:ring-[0px] focus-visible:ring-ring/50 md:text-lg dark:bg-main-background"
+                    className="h-8 w-full rounded-full border-0 bg-main-background shadow-none placeholder:text-sm focus-visible:border-none focus-visible:ring-[0px] focus-visible:ring-ring/50 md:h-12 md:text-lg placeholder:md:text-base placeholder:lg:text-lg dark:bg-main-background"
                   />
                 </FormControl>
               </FormItem>
@@ -137,6 +137,7 @@ export function SearchForm() {
         <ButtonSearch
           type="submit"
           controlled
+          className=""
           idleIcon={<Search />}
           disabled={form.formState.isSubmitting || !form.formState.isValid}
         />

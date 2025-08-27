@@ -64,6 +64,14 @@ function ResultsSection() {
         </DropdownMenu>
       </header>
 
+      {isLoading && (
+        <div className="flex flex-wrap items-center gap-4 p-4">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <ResultItemSkeleton key={index} />
+          ))}
+        </div>
+      )}
+
       <main
         className={cn(' w-full gap-4 overflow-scroll p-4', {
           'grid w-full grid-cols-[repeat(auto-fit,minmax(160px,1fr))]':
@@ -71,11 +79,6 @@ function ResultsSection() {
           'flex flex-row items-start': podcastView === 'scroll',
         })}
       >
-        {isLoading &&
-          Array.from({ length: 6 }).map((_, index) => (
-            <ResultItemSkeleton key={index} />
-          ))}
-
         {error && (
           <div className="flex w-full items-center justify-center py-8 text-red-500">
             <span>Error: {error.message}</span>

@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@repo/design-system/lib/utils';
+import { useIsMobile } from '../hooks/use-mobile';
 
 interface AnimatedSphereProps {
   size?: string;
@@ -20,6 +21,10 @@ const AnimatedSphere: React.FC<AnimatedSphereProps> = ({
   colors,
   animationDuration = 20,
 }) => {
+  const isMobile = useIsMobile();
+
+  size = isMobile ? '120px' : '150px';
+
   const defaultColors = {
     bg: 'oklch(95% 0.02 150)', // Light background for fresh feel
     c1: 'oklch(85% 0.15 100)', // Vibrant yellow

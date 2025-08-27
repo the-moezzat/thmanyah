@@ -40,7 +40,6 @@ export default function ButtonSearch({
   state,
   onStateChange,
   controlled = false,
-  type = 'button',
 }: ButtonSearchProps) {
   const [internalState, setInternalState] = useState<
     'idle' | 'loading' | 'success'
@@ -86,7 +85,7 @@ export default function ButtonSearch({
   return (
     <Button
       type={'submit'}
-      className={`relative size-14 cursor-pointer overflow-hidden rounded-full border ${className}`}
+      className={`relative w-full cursor-pointer overflow-hidden rounded-full border sm:size-13 md:size-14 ${className}`}
       disabled={buttonState !== 'idle' || disabled}
       onClick={handleClick}
       size={'icon'}
@@ -99,11 +98,12 @@ export default function ButtonSearch({
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           exit={{ opacity: 0, y: 25, filter: 'blur(10px)' }}
           key={buttonState}
-          className="flex w-full items-center justify-center"
+          className="flex items-center justify-center"
         >
           {icons[buttonState]}
         </motion.span>
       </AnimatePresence>
+      <span className="inline-block sm:hidden">Search</span>
     </Button>
   );
 }
