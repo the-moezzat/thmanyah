@@ -15,6 +15,9 @@
         ".react-email/**"
       ]
     },
+    "start": {
+      "dependsOn": ["^start"]
+    },
     "analyze": {
       "dependsOn": ["^analyze"]
     },
