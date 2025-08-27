@@ -16,8 +16,8 @@ const AuthLayout = ({ children }: AuthLayoutProps) => (
     <AppSidebar />
 
     <SidebarInset className="bg-main-background">
-      <main>
-        {/* <SidebarTrigger /> */}
+      <main className="relative p-2 md:p-4">
+        <SidebarTrigger />
         {/* <div className="-z-50 absolute inset-0 bg-[radial-gradient(125%_125%_at_50%_10%,#000000_40%,#010133_100%)]" /> */}
 
         {/* <div className="absolute top-4 right-4">
